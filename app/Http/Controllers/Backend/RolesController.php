@@ -9,35 +9,26 @@ use Spatie\Permission\Models\Permission;
 use App\User;
 class RolesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    /*=================================================================================================
+                                        Display user role list
+    =================================================================================================*/
     public function index()
     {
         $roles = Role::all();
         return view('backend.pages.roles.index',compact('roles'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    /*=================================================================================================
+                                        Create new role form 
+    =================================================================================================*/
     public function create()
     {
         $permissions = Permission::all();
         $permissionGroup = user::permissionGroup();
         return view('backend.pages.roles.create',compact('permissions','permissionGroup'));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    /*=================================================================================================
+                                        Save new roles
+    =================================================================================================*/
     public function store(Request $request)
     {
         $request->validate(["name"=>"required|max:100|unique:roles"]);
@@ -48,18 +39,13 @@ class RolesController extends Controller
         }
         return back();
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
-
+    /*=================================================================================================
+                                        Edit role by id
+    =================================================================================================*/
     public function edit($id)
     {
         $role = Role::findById($id);
@@ -67,6 +53,9 @@ class RolesController extends Controller
         $permissionGroup = User::permissionGroup();
         return view('backend.pages.roles.edit',compact('role','permissions','permissionGroup'));
     }
+    /*=================================================================================================
+                                        Update Role
+    =================================================================================================*/
     public function update(Request $request, $id)
     {
         $request->validate(["name"=>"required|max:100"]);
@@ -77,6 +66,9 @@ class RolesController extends Controller
         }
         return back(); 
     }
+    /*=================================================================================================
+                                        Delete role
+    =================================================================================================*/
     public function destroy($id)
     {
         $role = Role::findById($id);
