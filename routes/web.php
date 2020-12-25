@@ -21,5 +21,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/roles', 'Backend\RolesController');
-//Route::get('/roles-assign', 'Backend\RolesController@create')->name('roles.assign');
-//Route::post('/save-admin-role', 'Backend\RolesController@create')->name('save.admin.role');
+Route::resource('/users', 'Backend\UserController');

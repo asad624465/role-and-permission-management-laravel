@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Role and permission</title>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <!-- Scripts -->
     
@@ -24,7 +24,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    Role and permission
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -50,10 +50,13 @@
                             @endif
                         @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('roles.index') }}">{{ __('Roles manage') }}</a>
+                            <a class="{{(Route::is('roles.index')?'btn btn-primary':'nav-link')}}" href="{{ route('roles.index') }}">{{ __('Roles manage') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('roles.create') }}">{{ __('Roles Assign') }}</a>
+                            <a class="{{(Route::is('roles.create')?'btn btn-primary':'nav-link')}}" href="{{ route('roles.create') }}">{{ __('Roles Assign') }}</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="{{(Route::is('users.index')?'btn btn-primary':'nav-link')}}" href="{{ route('users.index') }}">{{ __('User List') }}</a>
                         </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
