@@ -22,3 +22,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/roles', 'Backend\RolesController');
 Route::resource('/users', 'Backend\UserController');
+Route::prefix('admin')->group(base_path('routes/admin.php'));
