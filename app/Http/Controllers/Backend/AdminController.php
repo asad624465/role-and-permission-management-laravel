@@ -4,40 +4,25 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\User;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Admin;
 use Spatie\Permission\Models\Role;
-class UserController extends Controller
+class AdminController extends Controller
 {
-    public $user;
-    public function __construct(){
-        $this->middleware(function($request,$next){
-            $this->user = Auth::guard('web')->user();
-            return $next($request);
-        });
-    }
-
     /*=================================================================================================
                                         Display user list
     =================================================================================================*/
     public function index()
     {
-        /*if(is_null($this->user) || !$this->user->can('role.view')){
-            abort('403','Unauthorized access');
-        }*/
-        $users = User::all();
-        return view('backend.pages.users.index',compact('users'));
+        $users = Admin::all();
+        return view('backend.pages.admins.index',compact('users'));
     }
     /*=================================================================================================
                                         Create new user form 
     =================================================================================================*/
     public function create()
     {
-        if(is_null($this->user) || !$this->user->can('role.add')){
-            abort('403','Unauthorized access');
-        }
         $roles = Role::all();
-        return view('backend.pages.users.create',compact('roles'));
+        return view('backend.pages.admins.create',compact('roles'));
     }
     /*=================================================================================================
                                         Save new user
@@ -55,7 +40,7 @@ class UserController extends Controller
         if ($request->role) {
             $user->assignRole($request->role);
         }
-        return redirect('users')->with('success', 'User created successfully.');
+        return redirect('users')->with('success', 'Admin created successfully.');
     }
     public function show($id)
     {
@@ -66,12 +51,9 @@ class UserController extends Controller
     =================================================================================================*/
     public function edit($id)
     {
-        if(is_null($this->user) || !$this->user->can('role.edit')){
-            abort('403','Unauthorized access');
-        }
-        $userdata = User::findOrFail($id);
+        $userdata = Admin::findOrFail($id);
         $roles = Role::all();
-        return view('backend.pages.users.edit',compact('userdata','roles'));
+        return view('backend.pages.admins.edit',compact('userdata','roles'));
     }
     /*=================================================================================================
                                         Update User
@@ -84,7 +66,7 @@ class UserController extends Controller
             'password'=>'nullable|min:8|max:12'
 
         ]);
-        $user = User::find($id);
+        $user = Admin::find($id);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->email = $request->email;
@@ -96,21 +78,18 @@ class UserController extends Controller
             $user->assignRole($request->role);
         }
         $user->save();
-        return redirect('users')->with('success', 'User created successfully.');
+        return redirect('users')->with('success', 'Admin created successfully.');
     }
     /*=================================================================================================
                                         Delete user
     =================================================================================================*/
     public function destroy($id)
     {
-        if(is_null($this->user) || !$this->user->can('role.delete')){
-            abort('403','Unauthorized access');
-        }
-        $user = User::findOrFail($id);
+        $user = Admin::findOrFail($id);
         if(!is_null($user)){
             $user->delete();
         }
-        session()->flash('success', 'User has been deleted !!');
+        session()->flash('success', 'Admin has been deleted !!');
         return back(); 
     }
 }

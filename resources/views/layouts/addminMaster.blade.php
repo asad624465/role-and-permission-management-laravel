@@ -39,7 +39,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        @guest
+                        @if( is_null(Auth::guard('admin')->user()->id) )
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
@@ -49,7 +49,15 @@
                                 </li>
                             @endif
                         @else
-                        
+                            <li class="nav-item">
+                            <a class="{{(Route::is('roles.index')?'btn btn-primary':'nav-link')}}" href="{{ route('roles.index') }}">{{ __('Roles manage') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="{{(Route::is('roles.create')?'btn btn-primary':'nav-link')}}" href="{{ route('roles.create') }}">{{ __('Roles Assign') }}</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="{{(Route::is('ad.index')?'btn btn-primary':'nav-link')}}" href="{{ route('ad.index') }}">{{ __('User List') }}</a>
+                        </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::guard('admin')->user()->name }}
@@ -67,7 +75,7 @@
                                     </form>
                                 </div>
                             </li>
-                        @endguest
+                        @endif
                     </ul>
                 </div>
             </div>

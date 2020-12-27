@@ -9,11 +9,21 @@ use Spatie\Permission\Models\Permission;
 use App\User;
 class RolesController extends Controller
 {
+    public $user;
+    public function __construct(){
+        $this->middleware(function($request,$next){
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    } 
     /*=================================================================================================
                                         Display user role list
     =================================================================================================*/
     public function index()
     {
+        if(is_null($this->user) || !$this->user->can('role.view')){
+            abort('403','Unauthorized access');
+        }
         $roles = Role::all();
         return view('backend.pages.roles.index',compact('roles'));
     }
@@ -22,6 +32,9 @@ class RolesController extends Controller
     =================================================================================================*/
     public function create()
     {
+        if(is_null($this->user) || !$this->user->can('role.edit')){
+            abort('403','Unauthorized access');
+        }
         $permissions = Permission::all();
         $permissionGroup = user::permissionGroup();
         return view('backend.pages.roles.create',compact('permissions','permissionGroup'));
@@ -48,6 +61,9 @@ class RolesController extends Controller
     =================================================================================================*/
     public function edit($id)
     {
+        if(is_null($this->user) || !$this->user->can('role.edit')){
+            abort('403','Unauthorized access');
+        }
         $role = Role::findById($id);
         $permissions = Permission::all();
         $permissionGroup = User::permissionGroup();
@@ -71,6 +87,9 @@ class RolesController extends Controller
     =================================================================================================*/
     public function destroy($id)
     {
+        if(is_null($this->user) || !$this->user->can('role.delete')){
+            abort('403','Unauthorized access');
+        }
         $role = Role::findById($id);
         if(!is_null($role)){
             $role->delete();
